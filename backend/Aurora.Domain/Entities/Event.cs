@@ -101,13 +101,13 @@ public class Event : BaseEntity
     {
         var eventDate = StartDate.Date;
         var targetDate = date.Date;
-        
+
         if (IsAllDay)
         {
             return eventDate == targetDate;
         }
-        
-        return eventDate == targetDate || 
+
+        return eventDate == targetDate ||
                (StartDate.Date <= targetDate && EndDate.Date >= targetDate);
     }
 

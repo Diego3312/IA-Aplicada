@@ -15,12 +15,12 @@ public static class DomainConstants
         /// ID fijo del usuario demo
         /// </summary>
         public static readonly Guid Id = Guid.Parse("550e8400-e29b-41d4-a716-446655440000");
-        
+
         /// <summary>
         /// Email del usuario demo
         /// </summary>
         public const string Email = "demo@aurora.local";
-        
+
         /// <summary>
         /// Nombre del usuario demo
         /// </summary>
@@ -47,7 +47,7 @@ public static class DomainConstants
         /// Indica si estamos en modo de desarrollo sin autenticación
         /// </summary>
         public const bool AllowAnonymousAccess = true;
-        
+
         /// <summary>
         /// Número de eventos demo a crear automáticamente
         /// </summary>

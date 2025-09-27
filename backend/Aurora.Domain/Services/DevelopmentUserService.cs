@@ -57,9 +57,9 @@ public static class DevelopmentUserService
     public static bool HasAccessToResource(Guid resourceOwnerId, Guid? currentUserId = null)
     {
         var userId = GetCurrentUserId(currentUserId);
-        
+
         // En modo desarrollo, el usuario demo tiene acceso a todo
-        if (DomainConstants.Development.AllowAnonymousAccess && 
+        if (DomainConstants.Development.AllowAnonymousAccess &&
             userId == DomainConstants.DemoUser.Id)
         {
             return true;
