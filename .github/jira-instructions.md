@@ -1,9 +1,9 @@
-# Template de Épica - Calendario Inteligente
+# Template de Épica - Proyecto
 
 ## EPIC [ID]: [NOMBRE DE LA ÉPICA]
 
 ### Información General
-- **ID**: EPIC-[XXX]
+- **ID**: PLAN-[XXX]
 - **Título**: [Nombre descriptivo de la épica]
 - **Prioridad**: [Alta | Media | Baja]
 - **Estimación Total**: [XX puntos de historia]
@@ -14,53 +14,61 @@
 ### User Stories Incluidas
 | ID | Título | Estimación | Prioridad | Estado |
 |---|---|---|---|---|
-| US-[XXX] | [Título de la User Story] | [X pts] | [Alta/Media/Baja] | [No Iniciada/En Progreso/Completada] |
-| US-[XXX] | [Título de la User Story] | [X pts] | [Alta/Media/Baja] | [No Iniciada/En Progreso/Completada] |
+| PLAN-[XXX] | [Título de la User Story] | [X pts] | [Alta/Media/Baja] | [Por hacer/En Progreso/Completada] |
+| PLAN-[XXX] | [Título de la User Story] | [X pts] | [Alta/Media/Baja] | [Por hacer/En Progreso/Completada] |
 
 ---
 
-# Template de User Story - Calendario Inteligente
+# Template de User Story - Proyecto
 
 ## USER STORY [ID]: [NOMBRE DE LA USER STORY]
 
 ### Información General
-- **ID**: US-[XXX]
+- **ID**: PLAN-[XXX]
 - **Título**: [Nombre descriptivo de la user story]
-- **Épica**: [EPIC-XXX: Nombre de la épica padre]
+- **Épica**: [PLAN-XXX: Nombre de la épica padre]
 - **Prioridad**: [Alta | Media | Baja]
 - **Estimación**: [X puntos de historia]
 - **Asignado a**: [Nombre del desarrollador]
 
 ### Historia de Usuario
-**Como** [tipo de usuario: usuario final, administrador, invitado, etc.]  
-**Quiero** [funcionalidad/capacidad específica que necesita]  
-**Para** [beneficio/valor de negocio que obtiene]
+**Como** [tipo de usuario]  
+**Quiero** [funcionalidad específica que necesita]  
+**Para** [beneficio/valor que obtiene]
 
-### Descripción Detallada
-[Explicación más amplia del contexto, problema a resolver y la solución esperada]
+### Contexto
+[Descripción detallada del problema que enfrenta el usuario, el contexto de uso, y por qué esta funcionalidad es necesaria. Incluir consideraciones de usabilidad, dispositivos objetivo, y restricciones específicas.]
 
 ### Criterios de Aceptación
-- [ ] [Criterio específico y medible 1]
-- [ ] [Criterio específico y medible 2]
-- [ ] [Criterio específico y medible 3]
-- [ ] [Criterio específico y medible 4]
+- [Criterio funcional específico y medible 1]
+- [Criterio de interfaz y experiencia de usuario 2]
+- [Criterio de rendimiento o técnico 3]
+- [Criterio de accesibilidad o responsive 4]
+- [Criterio de integración con otras funcionalidades 5]
+- [Criterio adicional según la complejidad de la funcionalidad]
 
 ### Mockups/Wireframes
-- [Link a diseños o descripción de la interfaz esperada]
-- [Notas sobre experiencia de usuario]
+- [Link a diseños específicos o descripción detallada de la interfaz]
+- [Flujos de navegación y transiciones]
+- [Estados de la interfaz: carga, error, vacío, éxito]
+- [Interacciones específicas: gestos, botones, formularios]
+- [Variaciones para diferentes tamaños de pantalla]
 
 ### Notas Técnicas
-- **Endpoints API necesarios**: [Listado de endpoints]
-- **Modelos de datos**: [Entidades involucradas]
-- **Dependencias técnicas**: [Librerías, servicios externos]
-- **Consideraciones de rendimiento**: [Si aplica]
+- **API**: [Endpoints específicos con métodos: GET /endpoint?params, POST /endpoint, etc.]
+- **Modelo**: [Estructura de datos: Entidad (campos específicos)]
+- **Librerías sugeridas**: [Librerías específicas recomendadas para la implementación]
+- **Consideraciones de rendimiento**: [Optimizaciones necesarias, carga de datos, etc.]
+- **Accesibilidad**: [Contraste, navegación por teclado, etiquetas ARIA, etc.]
+- **Responsive**: [Adaptación móvil, breakpoints mínimos, etc.]
+- **Integraciones**: [APIs externas, servicios de terceros]
 
 ### Definición de Terminado (DoD)
 - [ ] Código desarrollado según criterios de aceptación
 - [ ] Pruebas unitarias escritas y pasando (>80% cobertura)
 - [ ] Pruebas de integración completadas
 - [ ] Revisión de código aprobada por peer
-- [ ] Probado en dispositivos iOS y Android
+- [ ] Probado en dispositivos objetivo
 - [ ] Documentación actualizada
 - [ ] Demo realizada al Product Owner
 - [ ] User story validada por stakeholder
@@ -68,19 +76,25 @@
 ### Casos de Prueba
 | Escenario | Precondiciones | Pasos | Resultado Esperado |
 |---|---|---|---|
-| [Caso feliz] | [Estado inicial] | [Acciones del usuario] | [Resultado exitoso] |
-| [Caso de error] | [Estado inicial] | [Acciones que causan error] | [Manejo del error] |
-| [Caso límite] | [Condiciones especiales] | [Acciones en límites] | [Comportamiento esperado] |
+| [Caso feliz principal] | [Usuario autenticado, datos disponibles] | [Secuencia de acciones del flujo principal] | [Funcionalidad completa operativa] |
+| [Caso con datos vacíos] | [Usuario sin datos previos] | [Acciones con estado inicial vacío] | [Interfaz maneja estado vacío correctamente] |
+| [Caso de error de conexión] | [Sin conectividad o API no disponible] | [Intentar usar funcionalidad] | [Mensaje de error claro, opción de reintento] |
+| [Caso en dispositivo móvil] | [Pantalla pequeña, touch] | [Navegación y uso táctil] | [Interfaz responsive, gestos funcionando] |
+| [Caso con muchos datos] | [Usuario con gran volumen de información] | [Cargar y navegar datos] | [Rendimiento aceptable, paginación si es necesario] |
 
 ### Dependencias
 - **Dependencias de otras US**: [US-XXX: Nombre] - [Razón]
 - **Dependencias técnicas**: [Configuración, APIs, etc.]
 
 ### Tareas Técnicas (Subtasks)
-- [ ] [Tarea específica de desarrollo 1]
-- [ ] [Tarea específica de desarrollo 2]
-- [ ] [Tarea de testing 1]
-- [ ] [Tarea de documentación]
+- [ ] [Implementar funcionalidad principal específica 1]
+- [ ] [Implementar funcionalidad principal específica 2]
+- [ ] [Integrar APIs y servicios necesarios]
+- [ ] [Implementar validaciones y manejo de errores]
+- [ ] [Implementar características de UI/UX específicas]
+- [ ] [Validar funcionamiento en dispositivos objetivo]
+- [ ] [Documentar funcionalidad y flujos principales]
+- [ ] [Pruebas unitarias e integración]
 
 ### Notas y Comentarios
 [Espacio para decisiones de diseño, cambios de alcance, issues encontrados, etc.]

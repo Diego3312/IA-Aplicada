@@ -1,45 +1,48 @@
-# Copilot Instructions for Aurora
+---
+applyTo: '**'
+---
+# Aurora - Mobile-First Personal Planner
 
-Aurora is a web/mobile-first personal planner with a .NET backend and React frontend. It uses SQLite for persistence and integrates OpenAI API for NLP features.
+.NET 9 backend (Clean Architecture) + React 19 frontend. SQLite persistence.
 
-## Architecture Overview
-- **Frontend:** React (mobile-first), located in `/frontend`. Key components: calendar, event management, user settings, conversational input.
-- **Backend:** ASP.NET Core (.NET 8), located in `/backend`. RESTful API, all data validations via FluentValidation. SQLite database (`/backend/aurora.db`).
-- **AI Integration:** Backend connects to OpenAI API for NLP parsing of user input.
+## Architecture & Structure
 
-## Key Patterns & Conventions
-- **Frontend:**
-  - Use camelCase for variables/functions, PascalCase for components.
-  - Prioritize mobile-first and accessibility in UI.
-  - All user-facing texts and UI labels must be in Spanish.
-- **Backend:**
-  - Use PascalCase for classes/methods, camelCase for variables, _camelCase for private fields.
-  - All code, comments, and identifiers must be in English.
-  - All validations are implemented with FluentValidation (no DataAnnotations/manual checks).
-  - Return descriptive error codes/messages to frontend on validation failure.
-- **API:**
-  - JSON for all requests/responses.
-  - Endpoints follow RESTful conventions (e.g., `/events`, `/auth`, `/nlp`).
+**Backend Layers** (`Aurora.*` projects):
+- `Aurora.Api` → Controllers, CORS, OpenAPI (refs: Application + Infrastructure)
+- `Aurora.Application` → Services, DTOs, FluentValidation (refs: Domain only)
+- `Aurora.Domain` → Entities, interfaces (no dependencies)
+- `Aurora.Infrastructure` → EF Core, repositories (refs: Domain + Application)
 
-## Developer Workflows
-- **Testing:**
-  - Frontend: Jest + React Testing Library.
-  - Backend: xUnit. Minimum 80% coverage.
-- **Build/Run:**
-  - Backend: `dotnet restore`, `dotnet ef database update`, `dotnet run`.
-  - Frontend: `npm install`, `npm start`.
+**Frontend**: `frontend/` - React 19 + TypeScript + Vite, mobile-first design
 
-## Integration Points
-- **OpenAI API:** Used for NLP parsing in event creation. See backend `/nlp` endpoint.
-- **SQLite:** All persistent data stored in `/backend/aurora.db`.
+## Quick Start
 
-## Project-Specific Rules
-- All user-facing responses, UI texts, and documentation for end users must be in Spanish.
-- All source code (classes, variables, methods, comments) must be in English.
-- Follow the validation and business rules defined in user stories and instructions.
-- Maintain folder/file structure as described above.
+```bash
+# Backend: http://localhost:5291
+dotnet run --project backend/Aurora.Api/Aurora.Api.csproj
 
-## Example Files
-- `/frontend/` — React components, Spanish UI
-- `/backend/Validators/` — FluentValidation classes
-- `/backend/aurora.db` — SQLite database
+# Frontend: http://localhost:5173 (proxies /api to backend)
+cd frontend && npm run dev
+```
+
+**VS Code Tasks**: `build-backend`, `start-frontend`, `start-fullstack`
+
+## Core Conventions
+
+**Language**: Code in English, UI text in Spanish
+**Backend**: PascalCase classes/methods, camelCase variables, `_camelCase` privates
+**Frontend**: camelCase vars/functions, PascalCase components
+**Validation**: FluentValidation ONLY (no DataAnnotations/manual checks)
+**API**: JSON, centralized in `src/services/apiService.ts`
+
+## Data Model
+**Storage**: SQLite with EF Core
+
+## Key Rules
+
+1. Mobile-first responsive design
+2. Clean Architecture layer boundaries
+3. FluentValidation for all backend validation
+4. Spanish error messages to frontend
+5. 80% test coverage (xUnit backend, Jest frontend)
+
