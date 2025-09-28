@@ -1,6 +1,7 @@
 import { Filter } from 'lucide-react';
-import React, { useState } from 'react';
-import type { EventDto } from '../services/apiService';
+import React, { useEffect, useMemo, useState } from 'react';
+import type { EventDto, WeeklyEventsResponseDto } from '../services/apiService';
+import { apiService } from '../services/apiService';
 import './AuroraWeeklyCalendar.css';
 
 interface AuroraWeeklyCalendarProps {
@@ -14,6 +15,9 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showFilters, setShowFilters] = useState(false);
+  const [weeklyData, setWeeklyData] = useState<WeeklyEventsResponseDto | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   // Get start of the week (Monday)
   const getWeekStart = (date: Date): Date => {
@@ -26,66 +30,37 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
   const weekStart = getWeekStart(currentDate);
 
   // Generate week dates
-  const weekDates = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(weekStart);
-    date.setDate(weekStart.getDate() + i);
-    return date;
-  });
+  const weekDates = useMemo(() => {
+    return Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + i);
+      return date;
+    });
+  }, [weekStart]);
 
-  // Sample data for demonstration - replace with real API call
-  const sampleEvents: EventDto[] = [
-    {
-      id: '1',
-      title: 'Reunión de equipo',
-      description: 'Reunión semanal del equipo de desarrollo',
-      startDate: new Date(2025, 8, 27, 19, 28).toISOString(),
-      endDate: new Date(2025, 8, 27, 20, 28).toISOString(),
-      isAllDay: false,
-      color: '#1447e6',
-      isRecurring: false,
-      eventCategory: {
-        id: '1',
-        name: 'Trabajo',
-        color: '#1447e6',
-        isSystemDefault: true,
-        sortOrder: 1
-      }
-    },
-    {
-      id: '2',
-      title: 'Gimnasio',
-      description: 'Sesión de entrenamiento',
-      startDate: new Date(2025, 8, 27, 23, 28).toISOString(),
-      endDate: new Date(2025, 8, 28, 0, 58).toISOString(),
-      isAllDay: false,
-      color: '#ca3500',
-      isRecurring: false,
-      eventCategory: {
-        id: '2',
-        name: 'Ejercicio',
-        color: '#ca3500',
-        isSystemDefault: true,
-        sortOrder: 2
-      }
-    },
-    {
-      id: '3',
-      title: 'Clase de React Avanzado',
-      description: 'Curso de programación',
-      startDate: new Date(2025, 8, 28, 19, 28).toISOString(),
-      endDate: new Date(2025, 8, 28, 21, 28).toISOString(),
-      isAllDay: false,
-      color: '#008236',
-      isRecurring: false,
-      eventCategory: {
-        id: '3',
-        name: 'Estudio',
-        color: '#008236',
-        isSystemDefault: true,
-        sortOrder: 3
-      }
+  // Load weekly events from API
+  const loadWeeklyEvents = async (weekStartDate: Date) => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const weekStartISO = weekStartDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      const response = await apiService.getWeeklyEvents(weekStartISO);
+      setWeeklyData(response);
+      console.log('Weekly events loaded successfully:', response);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+      setError(`Error cargando eventos: ${errorMessage}`);
+      console.error('Error loading weekly events:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  // Load events when component mounts or current date changes
+  useEffect(() => {
+    loadWeeklyEvents(weekStart);
+  }, [weekStart]);
 
   // Navigation functions
   const goToPreviousWeek = () => {
@@ -134,8 +109,10 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
   };
 
   const getEventsByDate = (date: Date): EventDto[] => {
+    if (!weeklyData?.events) return [];
+
     const dateStr = date.toISOString().split('T')[0];
-    return sampleEvents.filter((event: EventDto) =>
+    return weeklyData.events.filter((event: EventDto) =>
       event.startDate.startsWith(dateStr)
     );
   };
@@ -169,10 +146,36 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
   };
 
-  const totalEvents = sampleEvents.length;
+  const totalEvents = weeklyData?.events.length || 0;
+
+  // Show loading state
+  if (loading && !weeklyData) {
+    return (
+      <div className="aurora-weekly-calendar">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Cargando calendario...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="aurora-weekly-calendar">
+      {/* Error display */}
+      {error && (
+        <div className="error-message">
+          <span className="error-icon">⚠️</span>
+          <p>{error}</p>
+          <button
+            className="retry-button"
+            onClick={() => loadWeeklyEvents(weekStart)}
+          >
+            Reintentar
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="calendar-header">
         <div className="header-controls">

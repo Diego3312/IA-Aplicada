@@ -11,10 +11,6 @@ public class WeeklyEventsRequestDtoValidator : AbstractValidator<WeeklyEventsReq
     public WeeklyEventsRequestDtoValidator()
     {
         RuleFor(x => x.WeekStart)
-            .NotEmpty()
-            .WithMessage("La fecha de inicio de semana es obligatoria");
-
-        RuleFor(x => x.WeekStart)
             .Must(BeValidWeekStart)
             .WithMessage("La fecha de inicio debe corresponder al primer día de una semana")
             .When(x => x.WeekStart != default);

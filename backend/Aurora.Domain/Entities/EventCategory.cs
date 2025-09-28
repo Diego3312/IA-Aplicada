@@ -70,12 +70,28 @@ public class EventCategory : BaseEntity
     /// <returns>True si la categoría está disponible para el usuario</returns>
     public bool IsAvailableForUser(Guid? userId)
     {
-        // Categorías del sistema están disponibles para todos
-        if (IsSystemCategory)
+        return IsAvailableForUser(userId, Constants.DomainConstants.Development.AllowAnonymousAccess);
+    }
+
+    /// <summary>
+    /// Verifica si la categoría está disponible para un usuario específico
+    /// Versión testeable que permite controlar el modo de desarrollo
+    /// </summary>
+    /// <param name="userId">ID del usuario, puede ser null para acceso anónimo</param>
+    /// <param name="allowAnonymousAccess">Si permite acceso anónimo (modo desarrollo)</param>
+    /// <returns>True si la categoría está disponible para el usuario</returns>
+    public bool IsAvailableForUser(Guid? userId, bool allowAnonymousAccess)
+    {
+        // Categorías inactivas nunca están disponibles
+        if (!IsActive)
+            return false;
+
+        // Categorías del sistema siempre están disponibles (si están activas)
+        if (IsSystemDefault)
             return true;
 
         // En modo desarrollo, todas las categorías están disponibles
-        if (Constants.DomainConstants.Development.AllowAnonymousAccess)
+        if (allowAnonymousAccess)
             return true;
 
         // Categorías personalizadas solo para su propietario

@@ -42,8 +42,8 @@ public class CreateEventDtoValidator : AbstractValidator<CreateEventDto>
             .When(x => !string.IsNullOrEmpty(x.Location));
 
         RuleFor(x => x.Notes)
-            .MaximumLength(2000)
-            .WithMessage("Las notas no pueden tener más de 2000 caracteres")
+            .MaximumLength(500)
+            .WithMessage("Las notas no pueden tener más de 500 caracteres")
             .When(x => !string.IsNullOrEmpty(x.Notes));
 
         RuleFor(x => x.Color)
