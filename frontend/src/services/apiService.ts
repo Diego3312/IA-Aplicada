@@ -18,6 +18,56 @@ export interface HealthResponse {
   environment: string;
 }
 
+export interface EventCategoryDto {
+  id: string;
+  name: string;
+  description?: string;
+  color: string;
+  icon?: string;
+  isSystemDefault: boolean;
+  sortOrder: number;
+}
+
+export interface EventDto {
+  id: string;
+  title: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  isAllDay: boolean;
+  location?: string;
+  color?: string;
+  notes?: string;
+  isRecurring: boolean;
+  eventCategory: EventCategoryDto;
+}
+
+export interface WeeklyEventsRequestDto {
+  weekStart: string;
+  userId?: string;
+}
+
+export interface WeeklyEventsResponseDto {
+  weekStart: string;
+  weekEnd: string;
+  events: EventDto[];
+  categories: EventCategoryDto[];
+  userId: string;
+}
+
+export interface CreateEventDto {
+  title: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  isAllDay: boolean;
+  location?: string;
+  color?: string;
+  notes?: string;
+  eventCategoryId: string;
+}
+
+// Legacy interfaces for backward compatibility
 export interface TestDataItem {
   id: number;
   name: string;
@@ -89,6 +139,8 @@ export const apiService = {
     }
   },
 
+  // ===== HEALTH & TESTING ENDPOINTS =====
+
   /**
    * Check API health status
    */
@@ -101,5 +153,98 @@ export const apiService = {
    */
   async getTestData(): Promise<TestResponse> {
     return this.fetchApi<TestResponse>('/health/test');
+  },
+
+  // ===== EVENT CATEGORIES ENDPOINTS =====
+
+  /**
+   * Get all available event categories for a user
+   */
+  async getEventCategories(userId?: string): Promise<EventCategoryDto[]> {
+    const queryParam = userId ? `?userId=${userId}` : '';
+    return this.fetchApi<EventCategoryDto[]>(`/eventcategories${queryParam}`);
+  },
+
+  /**
+   * Get system (default) event categories
+   */
+  async getSystemCategories(): Promise<EventCategoryDto[]> {
+    return this.fetchApi<EventCategoryDto[]>('/eventcategories/system');
+  },
+
+  /**
+   * Get custom event categories for a user
+   */
+  async getCustomCategories(userId?: string): Promise<EventCategoryDto[]> {
+    const queryParam = userId ? `?userId=${userId}` : '';
+    return this.fetchApi<EventCategoryDto[]>(`/eventcategories/custom${queryParam}`);
+  },
+
+  /**
+   * Get a specific event category by ID
+   */
+  async getEventCategory(id: string): Promise<EventCategoryDto> {
+    return this.fetchApi<EventCategoryDto>(`/eventcategories/${id}`);
+  },
+
+  // ===== EVENTS ENDPOINTS =====
+
+  /**
+   * Get weekly events for a specific week
+   */
+  async getWeeklyEvents(weekStart: string, userId?: string): Promise<WeeklyEventsResponseDto> {
+    const request: WeeklyEventsRequestDto = {
+      weekStart,
+      userId
+    };
+
+    return this.fetchApi<WeeklyEventsResponseDto>('/events/weekly', {
+      method: 'POST',
+      body: JSON.stringify(request)
+    });
+  },
+
+  /**
+   * Get all events for a user
+   */
+  async getEvents(userId?: string): Promise<EventDto[]> {
+    const queryParam = userId ? `?userId=${userId}` : '';
+    return this.fetchApi<EventDto[]>(`/events${queryParam}`);
+  },
+
+  /**
+   * Get a specific event by ID
+   */
+  async getEvent(id: string): Promise<EventDto> {
+    return this.fetchApi<EventDto>(`/events/${id}`);
+  },
+
+  /**
+   * Create a new event
+   */
+  async createEvent(eventData: CreateEventDto): Promise<EventDto> {
+    return this.fetchApi<EventDto>('/events', {
+      method: 'POST',
+      body: JSON.stringify(eventData)
+    });
+  },
+
+  /**
+   * Update an existing event
+   */
+  async updateEvent(id: string, eventData: CreateEventDto): Promise<EventDto> {
+    return this.fetchApi<EventDto>(`/events/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(eventData)
+    });
+  },
+
+  /**
+   * Delete an event
+   */
+  async deleteEvent(id: string): Promise<void> {
+    return this.fetchApi<void>(`/events/${id}`, {
+      method: 'DELETE'
+    });
   }
 };
