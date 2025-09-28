@@ -27,7 +27,7 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
     return new Date(d.setDate(diff));
   };
 
-  const weekStart = getWeekStart(currentDate);
+  const weekStart = useMemo(() => getWeekStart(currentDate), [currentDate]);
 
   // Generate week dates
   const weekDates = useMemo(() => {
