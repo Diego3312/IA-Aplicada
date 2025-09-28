@@ -26,8 +26,8 @@ public class EventRepository : Repository<Event>, IEventRepository
     public async Task<IEnumerable<Event>> GetEventsForWeekAsync(Guid userId, DateTime startDate, DateTime endDate)
     {
         return await _dbSet
-            .Where(e => e.UserId == userId && 
-                       e.StartDate >= startDate && 
+            .Where(e => e.UserId == userId &&
+                       e.StartDate >= startDate &&
                        e.StartDate <= endDate)
             .Include(e => e.EventCategory)
             .OrderBy(e => e.StartDate)
@@ -52,7 +52,7 @@ public class EventRepository : Repository<Event>, IEventRepository
     public async Task<IEnumerable<Event>> GetOverlappingEventsAsync(Guid userId, DateTime startDate, DateTime endDate)
     {
         return await _dbSet
-            .Where(e => e.UserId == userId && 
+            .Where(e => e.UserId == userId &&
                        !e.IsAllDay &&
                        ((e.StartDate < endDate && e.EndDate > startDate)))
             .Include(e => e.EventCategory)
@@ -94,7 +94,7 @@ public class EventRepository : Repository<Event>, IEventRepository
 
     public async Task<bool> HasConflictingEventsAsync(Guid userId, DateTime startDate, DateTime endDate, Guid? excludeEventId = null)
     {
-        var query = _dbSet.Where(e => e.UserId == userId && 
+        var query = _dbSet.Where(e => e.UserId == userId &&
                                       !e.IsAllDay &&
                                       ((e.StartDate < endDate && e.EndDate > startDate)));
 
@@ -109,8 +109,8 @@ public class EventRepository : Repository<Event>, IEventRepository
     public async Task<IEnumerable<Event>> GetEventsByDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate)
     {
         return await _dbSet
-            .Where(e => e.UserId == userId && 
-                       e.StartDate >= startDate && 
+            .Where(e => e.UserId == userId &&
+                       e.StartDate >= startDate &&
                        e.StartDate <= endDate)
             .Include(e => e.EventCategory)
             .OrderBy(e => e.StartDate)
@@ -124,9 +124,9 @@ public class EventRepository : Repository<Event>, IEventRepository
         var nextDay = dateOnly.AddDays(1);
 
         return await _dbSet
-            .Where(e => e.UserId == userId && 
-                       e.IsAllDay && 
-                       e.StartDate >= dateOnly && 
+            .Where(e => e.UserId == userId &&
+                       e.IsAllDay &&
+                       e.StartDate >= dateOnly &&
                        e.StartDate < nextDay)
             .Include(e => e.EventCategory)
             .OrderBy(e => e.StartDate)

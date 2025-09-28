@@ -1,6 +1,37 @@
+using Aurora.Application.Interfaces;
+using Aurora.Application.Services;
+using Aurora.Infrastructure.Data;
+using Aurora.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== SERVICE CONFIGURATION =====
+
+// Entity Framework Configuration
+builder.Services.AddDbContext<AuroraDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                          ?? "Data Source=aurora.db";
+    options.UseSqlite(connectionString);
+
+    // Enable sensitive data logging in development
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableSensitiveDataLogging();
+        options.EnableDetailedErrors();
+    }
+});
+
+// Repository Pattern - Generic Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// Repository Pattern - Specific Repositories
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
+
+// Application Services
+builder.Services.AddScoped<IEventService, EventService>();
 
 // API Controllers
 builder.Services.AddControllers();
@@ -26,6 +57,16 @@ builder.Services.AddHealthChecks();
 // ===== APPLICATION PIPELINE =====
 
 var app = builder.Build();
+
+// Initialize Database in Development
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AuroraDbContext>();
+        await DbInitializer.InitializeAsync(context);
+    }
+}
 
 // Development Environment Configuration
 if (app.Environment.IsDevelopment())

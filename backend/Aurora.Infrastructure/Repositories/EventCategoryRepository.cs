@@ -72,13 +72,13 @@ public class EventCategoryRepository : Repository<EventCategory>, IEventCategory
     public async Task<EventCategory?> GetCategoryByNameAsync(Guid userId, string name)
     {
         return await _dbSet
-            .FirstOrDefaultAsync(c => c.UserId == userId && 
+            .FirstOrDefaultAsync(c => c.UserId == userId &&
                                       c.Name.ToLower() == name.ToLower());
     }
 
     public async Task<bool> CategoryExistsAsync(Guid userId, string name, Guid? excludeCategoryId = null)
     {
-        var query = _dbSet.Where(c => c.UserId == userId && 
+        var query = _dbSet.Where(c => c.UserId == userId &&
                                       c.Name.ToLower() == name.ToLower());
 
         if (excludeCategoryId.HasValue)
