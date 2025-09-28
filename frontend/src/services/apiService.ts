@@ -130,6 +130,12 @@ export const apiService = {
         );
       }
 
+      // Handle empty responses (like DELETE 204)
+      if (response.status === 204 || response.headers.get('content-length') === '0') {
+        console.log(`API Success: ${endpoint} (no content)`);
+        return undefined as T;
+      }
+
       const data = await response.json();
       console.log(`API Success: ${endpoint}`, data);
       return data;
