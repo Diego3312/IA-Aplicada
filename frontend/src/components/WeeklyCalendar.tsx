@@ -1,3 +1,4 @@
+import { Filter } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import type { EventDto, WeeklyEventsResponseDto } from '../services/apiService';
 import { apiService } from '../services/apiService';
@@ -8,11 +9,43 @@ interface WeeklyCalendarProps {
 }
 
 const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ userId }) => {
+  // Simple Button component for this file
+  interface ButtonProps {
+    variant?: 'outline' | 'default';
+    size?: 'sm' | 'default';
+    onClick?: () => void;
+    className?: string;
+    children: React.ReactNode;
+  }
+
+  const Button: React.FC<ButtonProps> = ({
+    variant = 'default',
+    size = 'default',
+    onClick,
+    className = '',
+    children
+  }) => {
+    const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+    const variantClasses = variant === 'outline'
+      ? 'border border-input hover:bg-accent hover:text-accent-foreground'
+      : 'bg-primary text-primary-foreground hover:bg-primary/90';
+    const sizeClasses = size === 'sm' ? 'h-9 px-3' : 'h-10 py-2 px-4';
+
+    return (
+      <button
+        className={`${baseClasses} ${variantClasses} ${sizeClasses} ${className}`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
+  };
   // State management
   const [weeklyData, setWeeklyData] = useState<WeeklyEventsResponseDto | null>(null);
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(new Date());
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   // Get Monday of current week
   const getMondayOfWeek = (date: Date): Date => {
@@ -184,6 +217,18 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ userId }) => {
             <span>Actualizando...</span>
           </div>
         )}
+      </div>
+
+      {/* Filter button */}
+      <div className="calendar-filters">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowFilters(!showFilters)}
+          className={showFilters ? 'bg-primary text-primary-foreground' : ''}
+        >
+          <Filter className="w-4 h-4" />
+        </Button>
       </div>
 
       {/* Error display */}

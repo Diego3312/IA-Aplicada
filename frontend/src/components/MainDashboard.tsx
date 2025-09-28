@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import type { EventDto } from '../services/apiService';
 import AuroraWeeklyCalendar from './AuroraWeeklyCalendar';
+import { FloatingNLPInput } from './FloatingNLPInput';
 import './MainDashboard.css';
 import Navigation from './Navigation';
 
 const MainDashboard: React.FC = () => {
-  const [activeView, setActiveView] = useState('weekly');
+  const [activeView, setActiveView] = useState('calendar-week');
 
   const handleViewChange = (view: string) => {
     setActiveView(view);
     console.log('Changing view to:', view);
+  };
+
+  const handleEventCreated = () => {
+    console.log('Evento creado mediante IA');
+    // TODO: Refresh calendar data or show success notification
   };
 
   const handleEventClick = (event: EventDto) => {
@@ -24,14 +30,14 @@ const MainDashboard: React.FC = () => {
 
   const renderMainContent = () => {
     switch (activeView) {
-      case 'weekly':
+      case 'calendar-week':
         return (
           <AuroraWeeklyCalendar
             onEventClick={handleEventClick}
             onAddEvent={handleAddEvent}
           />
         );
-      case 'monthly':
+      case 'calendar-month':
         return (
           <div className="placeholder-view">
             <h2>Vista Mensual</h2>
@@ -78,6 +84,7 @@ const MainDashboard: React.FC = () => {
       <main className="dashboard-content">
         {renderMainContent()}
       </main>
+      <FloatingNLPInput onEventCreated={handleEventCreated} />
     </div>
   );
 };

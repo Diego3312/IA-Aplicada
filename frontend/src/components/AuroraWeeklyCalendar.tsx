@@ -1,3 +1,4 @@
+import { Filter } from 'lucide-react';
 import React, { useState } from 'react';
 import type { EventDto } from '../services/apiService';
 import './AuroraWeeklyCalendar.css';
@@ -12,6 +13,7 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
   onAddEvent
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [showFilters, setShowFilters] = useState(false);
 
   // Get start of the week (Monday)
   const getWeekStart = (date: Date): Date => {
@@ -192,11 +194,11 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
             <button className="today-btn" onClick={goToToday}>
               Hoy
             </button>
-            <button className="settings-btn">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 10a2 2 0 100-4 2 2 0 000 4z" fill="currentColor" />
-                <path fillRule="evenodd" d="M6.5 2a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1.086l.943.464a.5.5 0 01.235.664l-.5 1a.5.5 0 01-.664.235L8.5 5.086V6.5a.5.5 0 01-.5.5H7a.5.5 0 01-.5-.5V5.086l-1.019.363a.5.5 0 01-.664-.235l-.5-1a.5.5 0 01.235-.664L5.5 3.086V2z" fill="currentColor" />
-              </svg>
+            <button
+              className={`settings-btn ${showFilters ? 'bg-primary text-primary-foreground' : ''}`}
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="w-4 h-4" />
             </button>
             <button className="add-event-btn" onClick={() => onAddEvent?.(new Date())}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -256,7 +258,7 @@ const AuroraWeeklyCalendar: React.FC<AuroraWeeklyCalendarProps> = ({
                         <div className="event-priority">
                           {Array.from({ length: 4 }).map((_, i) => (
                             <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <circle cx="6" cy="6" r="2" fill="currentColor" />
+                              <path d="M6 1L7.5 4.5L11 5L8.5 7.5L9 11L6 9.5L3 11L3.5 7.5L1 5L4.5 4.5L6 1Z" fill="currentColor" />
                             </svg>
                           ))}
                         </div>

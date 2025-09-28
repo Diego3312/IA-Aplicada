@@ -108,6 +108,26 @@
     color: #312785;
 }
 
+/* Active state for filter button */
+.settings-btn.bg-primary {
+    background: #8B5CF6 !important;
+    border-color: #8B5CF6 !important;
+}
+
+.settings-btn.bg-primary svg,
+.settings-btn.text-primary-foreground svg {
+    color: white !important;
+}
+
+/* Tailwind CSS fallbacks */
+.w-4 {
+    width: 1rem;
+}
+
+.h-4 {
+    height: 1rem;
+}
+
 .add-event-btn {
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     border: none;

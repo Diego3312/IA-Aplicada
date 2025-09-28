@@ -23,15 +23,26 @@
     height: 40px;
 }
 
-.logo-icon {
+.logo-icon,
+.w-10.h-10.bg-primary,
+.w-10.h-10.bg-primary-gradient {
     position: relative;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
+    margin-right: 20px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+}
+
+.calendar-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    stroke-width: 2;
 }
 
 .logo-notification {
@@ -41,6 +52,134 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 3px 12px rgba(251, 191, 36, 0.4);
+}
+
+.sparkles-icon {
+    width: 10px;
+    height: 10px;
+    color: white;
+    stroke-width: 2;
+}
+
+/* Tailwind CSS fallbacks */
+.bg-primary-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.w-10 {
+    width: 2.5rem;
+}
+
+.h-10 {
+    height: 2.5rem;
+}
+
+.w-6 {
+    width: 1.5rem;
+}
+
+.h-6 {
+    height: 1.5rem;
+}
+
+.w-5 {
+    width: 1.25rem;
+}
+
+.h-5 {
+    height: 1.25rem;
+}
+
+.w-2\.5 {
+    width: 0.625rem;
+}
+
+.h-2\.5 {
+    height: 0.625rem;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.rounded-full {
+    border-radius: 9999px;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.-top-1 {
+    top: -0.25rem;
+}
+
+.-right-1 {
+    right: -0.25rem;
+}
+
+.text-primary-foreground {
+    color: #FFFFFF;
+}
+
+.text-white {
+    color: #FFFFFF;
+}
+
+.bg-gradient-to-br {
+    background: linear-gradient(to bottom right, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+
+.from-yellow-400 {
+    --tw-gradient-from: #FBBF24;
+    --tw-gradient-to: rgba(251, 191, 36, 0);
+}
+
+.to-orange-500 {
+    --tw-gradient-to: #F59E0B;
+}
+
+/* Combined gradient fallback */
+.bg-gradient-to-br.from-yellow-400.to-orange-500 {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%) !important;
+}
+
+/* Specific sparkle badge gradient */
+.absolute.-top-1.-right-1.w-5.h-5.bg-gradient-to-br.from-yellow-400.to-orange-500 {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%) !important;
+}
+
+/* Alternative with direct class targeting */
+.sparkle-badge {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
