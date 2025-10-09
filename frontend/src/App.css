@@ -1,86 +1,164 @@
-/* Reset y estilos globales */
+/* ===== GLOBAL STYLES ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .App {
-  width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-/* Animaciones */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ===== AURORA MAIN APP ===== */
+.aurora-app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background: white;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+/* ===== API TEST MODE ===== */
+.api-test-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.test-header {
+  background: white;
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
 }
 
-/* Mejoras de botones */
-.hover-button {
-  transition: all 0.3s ease;
-  transform: translateY(0);
+.test-header h1 {
+  color: #312785;
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 
-.hover-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2) !important;
+.test-header p {
+  color: #64748b;
+  font-size: 14px;
 }
 
-.hover-button:active:not(:disabled) {
-  transform: translateY(0);
+.test-header a {
+  color: #6366f1;
+  text-decoration: none;
+  margin: 0 8px;
 }
 
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-  width: 8px;
+.test-header a:hover {
+  text-decoration: underline;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+.test-main {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
+/* ===== DEVELOPMENT OVERLAY ===== */
+.dev-overlay {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1000;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+.dev-link {
+  background: rgba(99, 102, 241, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s ease;
 }
 
-/* Responsividad */
+.dev-link:hover {
+  background: rgba(99, 102, 241, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-  .App {
-    padding: 10px;
+  .dev-overlay {
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .dev-link {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .test-header {
+    padding: 16px;
+  }
+
+  .test-header h1 {
+    font-size: 20px;
+  }
+
+  .test-main {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dev-overlay {
+    bottom: 4px;
+    left: 4px;
+  }
+
+  .dev-link {
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: 16px;
+  }
+
+  .test-header {
+    padding: 12px;
+  }
+
+  .test-header h1 {
+    font-size: 18px;
+  }
+
+  .test-header p {
+    font-size: 12px;
+  }
+
+  .test-main {
+    padding: 12px;
   }
 }
